@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMind.AI Layout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Adicionando Fontes Modernas (Poppins e Montserrat) e Ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@500;700&display=swap');
+
+        /* Configuração de Cores e Fontes */
+        :root {
+            --color-primary: #007AFF;
+            --color-secondary: #A6FF00;
+            --color-background: #121212;
+            --color-text-white: #FFFFFF;
+            --color-text-light-grey: #A0A0A0;
+        }
+
+        body {
+            background-color: var(--color-background);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Gradiente Azul Elétrico -> Verde Limão */
+        .bg-gradient-fitmind {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+        }
+        .text-gradient-fitmind {
+            background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .border-gradient-fitmind {
+            border: 2px solid transparent;
+            border-image: linear-gradient(to right, var(--color-primary) 0%, var(--color-secondary) 100%) 1;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); /* Sombra suave do azul */
+        }
+
+        /* Classe para simular o container do celular */
+        .mobile-frame {
+            height: 90vh;
+            max-height: 850px;
+            width: 100%;
+            max-width: 450px;
+            margin: 2vh auto;
+            overflow: hidden;
+            border-radius: 40px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
+            background-color: var(--color-background);
+            position: relative;
+        }
+
+        /* Esconder todas as telas exceto a ativa */
+        .screen:not(.active) {
+            display: none;
+        }
+
+        /* Scrollbar discreta para o conteúdo */
+        .scroll-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .scroll-content::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen p-4">
+
+    <div id="app-container" class="mobile-frame">
+
+        <!-- 1. Tela de Boas-vindas / Login / Cadastro (Inicial) -->
+        <div id="welcome-screen" class="screen active h-full flex flex-col items-center justify-between p-8 pt-20 transition-opacity duration-500" data-nav-target="false">
+            <div class="absolute inset-0 z-0 opacity-10" style="background-image: url('https://placehold.co/400x800/121212/007AFF?text=Silhueta+de+Treinamento'); background-size: cover; background-position: center;"></div>
+
+            <div class="relative z-10 text-center">
+                <h1 class="text-6xl font-extrabold text-gradient-fitmind" style="font-family: 'Poppins', sans-serif;">
+                    FitMind.<span class="text-white">AI</span>
+                </h1>
+                <p class="text-gray-400 mt-2 text-lg">Seu treino e dieta, otimizados pela Inteligência Artificial.</p>
+            </div>
+
+            <div class="relative z-10 w-full space-y-4 mb-10">
+                <button onclick="navigate('dashboard-screen')" class="w-full py-4 rounded-xl font-bold text-lg text-white bg-gradient-fitmind shadow-lg transition duration-300 transform hover:scale-[1.02]">
+                    <i class="fab fa-google mr-2"></i> Entrar com Google
+                </button>
+                <button onclick="navigate('dashboard-screen')" class="w-full py-4 rounded-xl font-bold text-lg text-white border border-gray-600 bg-[#1e1e1e] transition duration-300 transform hover:bg-[#282828]">
+                    Criar conta
+                </button>
+                <button onclick="navigate('dashboard-screen')" class="w-full py-3 text-gray-400 font-medium transition duration-300 hover:text-white">
+                    Continuar como visitante
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. Tela Inicial / Dashboard -->
+        <div id="dashboard-screen" class="screen h-full pt-8 pb-20 px-6 scroll-content overflow-y-auto" data-nav-target="true">
+            <header class="flex justify-between items-center mb-6">
+                <div>
+                    <p class="text-xl text-gray-400 font-medium">Bom dia,</p>
+                    <h2 class="text-3xl font-bold text-white" style="font-family: 'Poppins', sans-serif;">Alexandre!</h2>
+                </div>
+                <div onclick="navigate('profile-screen')" class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center border-2 border-primary cursor-pointer">
+                    <i class="fas fa-user text-white text-xl"></i>
+                </div>
+            </header>
+
+            <!-- Card de Resumo do Dia -->
+            <div class="bg-gray-800 p-5 rounded-3xl shadow-xl mb-6">
+                <h3 class="text-xl font-bold text-white mb-4">Resumo do Dia</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-3 bg-gray-700 rounded-xl flex flex-col items-start">
+                        <i class="fas fa-fire text-secondary mb-1"></i>
+                        <p class="text-2xl font-bold text-white">1200</p>
+                        <p class="text-gray-400 text-sm">Calorias (Meta: 2000)</p>
+                    </div>
+                    <div class="p-3 bg-gray-700 rounded-xl flex flex-col items-start">
+                        <i class="fas fa-shoe-prints text-primary mb-1"></i>
+                        <p class="text-2xl font-bold text-white">4500</p>
+                        <p class="text-gray-400 text-sm">Passos (Meta: 8000)</p>
+                    </div>
+                    <div class="p-3 bg-gray-700 rounded-xl flex flex-col items-start">
+                        <i class="fas fa-dumbbell text-secondary mb-1"></i>
+                        <p class="text-2xl font-bold text-white">45min</p>
+                        <p class="text-gray-400 text-sm">Treino Concluído</p>
+                    </div>
+                    <div class="p-3 bg-gray-700 rounded-xl flex flex-col items-start">
+                        <i class="fas fa-utensils text-primary mb-1"></i>
+                        <p class="text-2xl font-bold text-white">2/5</p>
+                        <p class="text-gray-400 text-sm">Refeições Registradas</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cards Interativos -->
+            <div class="space-y-4 mb-6">
+                <button onclick="navigate('workout-screen')" class="w-full p-5 rounded-3xl bg-gradient-fitmind text-white flex justify-between items-center shadow-lg transition duration-300">
+                    <div>
+                        <p class="text-xl font-bold">Treinar agora</p>
+                        <p class="text-sm">Sugestão da IA: Pernas & Core</p>
+                    </div>
+                    <i class="fas fa-chevron-right text-white"></i>
+                </button>
+                <div onclick="navigate('nutrition-screen')" class="w-full p-5 rounded-3xl bg-gray-800 text-white flex justify-between items-center shadow-lg border border-gray-700 cursor-pointer transition duration-300 hover:bg-gray-700">
+                    <div>
+                        <p class="text-xl font-bold text-secondary">Ver Dieta</p>
+                        <p class="text-sm text-gray-400">Plano de Emagrecimento Ativo</p>
+                    </div>
+                    <i class="fas fa-apple-alt text-secondary"></i>
+                </div>
+                <div onclick="navigate('professionals-screen')" class="w-full p-5 rounded-3xl bg-gray-800 text-white flex justify-between items-center shadow-lg border border-gray-700 cursor-pointer transition duration-300 hover:bg-gray-700">
+                    <div>
+                        <p class="text-xl font-bold text-primary">Conectar com Profissional</p>
+                        <p class="text-sm text-gray-400">Nutricionista e Personal Trainer</p>
+                    </div>
+                    <i class="fas fa-user-tie text-primary"></i>
+                </div>
+            </div>
+
+            <!-- Gráfico de Progresso (Mockup) -->
+            <div class="bg-gray-800 p-5 rounded-3xl shadow-xl mb-6">
+                <h3 class="text-xl font-bold text-white mb-4">Progresso (Peso)</h3>
+                <div class="h-32 bg-gray-700 rounded-xl flex items-center justify-center text-gray-400">
+                    [Placeholder de Gráfico de Linhas]
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Tela de Treinos -->
+        <div id="workout-screen" class="screen h-full pt-8 pb-20 px-6 scroll-content overflow-y-auto" data-nav-target="true">
+            <h2 class="text-3xl font-bold text-white mb-6">Meus Treinos</h2>
+
+            <!-- Filtros -->
+            <div class="flex space-x-2 overflow-x-auto mb-6">
+                <button class="flex-shrink-0 bg-gradient-fitmind text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg">Ganho de massa</button>
+                <button class="flex-shrink-0 bg-gray-700 text-gray-300 text-sm font-medium px-4 py-2 rounded-full">Emagrecimento</button>
+                <button class="flex-shrink-0 bg-gray-700 text-gray-300 text-sm font-medium px-4 py-2 rounded-full">Resistência</button>
+                <button class="flex-shrink-0 bg-gray-700 text-gray-300 text-sm font-medium px-4 py-2 rounded-full"><i class="fas fa-filter"></i> Mais</button>
+            </div>
+
+            <!-- Lista de Treinos Personalizados -->
+            <div class="space-y-4">
+                <!-- Treino 1 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700">
+                    <div class="p-4 flex items-center">
+                        <div class="w-20 h-20 rounded-xl bg-gray-700 mr-4 flex-shrink-0" style="background-image: url('https://placehold.co/80x80/282828/A6FF00?text=PE'); background-size: cover;"></div>
+                        <div class="flex-grow">
+                            <h4 class="text-xl font-bold text-white">Pernas & Core (IA Sugere)</h4>
+                            <p class="text-gray-400 text-sm">35 min | Moderado | 5 exercícios</p>
+                        </div>
+                        <button class="bg-gradient-fitmind text-white px-4 py-2 rounded-xl font-bold text-sm shadow-md transition duration-300">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Treino 2 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700">
+                    <div class="p-4 flex items-center">
+                        <div class="w-20 h-20 rounded-xl bg-gray-700 mr-4 flex-shrink-0" style="background-image: url('https://placehold.co/80x80/282828/007AFF?text=HIIT'); background-size: cover;"></div>
+                        <div class="flex-grow">
+                            <h4 class="text-xl font-bold text-white">HIIT Queima Rápida</h4>
+                            <p class="text-gray-400 text-sm">20 min | Intenso | 8 exercícios</p>
+                        </div>
+                        <button class="bg-gray-700 text-gray-300 px-4 py-2 rounded-xl font-bold text-sm transition duration-300 hover:bg-gray-600">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Treino 3 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700">
+                    <div class="p-4 flex items-center">
+                        <div class="w-20 h-20 rounded-xl bg-gray-700 mr-4 flex-shrink-0" style="background-image: url('https://placehold.co/80x80/282828/A6FF00?text=FLEX'); background-size: cover;"></div>
+                        <div class="flex-grow">
+                            <h4 class="text-xl font-bold text-white">Yoga para Flexibilidade</h4>
+                            <p class="text-gray-400 text-sm">45 min | Leve | 12 exercícios</p>
+                        </div>
+                        <button class="bg-gray-700 text-gray-300 px-4 py-2 rounded-xl font-bold text-sm transition duration-300 hover:bg-gray-600">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão Treinar Agora (Destacado) -->
+            <button onclick="showModal('workout-modal')" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gradient-fitmind text-white text-lg font-bold px-8 py-3 rounded-full shadow-2xl shadow-[#007AFF]/50 z-20 transition duration-300 transform hover:scale-105">
+                <i class="fas fa-bolt mr-2"></i> Treinar Agora
+            </button>
+        </div>
+
+        <!-- 4. Tela de Alimentação / Dieta -->
+        <div id="nutrition-screen" class="screen h-full pt-8 pb-20 px-6 scroll-content overflow-y-auto" data-nav-target="true">
+            <h2 class="text-3xl font-bold text-white mb-6">Dieta Inteligente</h2>
+
+            <!-- Botão Gerar Dieta com IA -->
+            <button class="w-full mb-6 p-4 rounded-xl bg-gradient-fitmind text-white font-bold text-lg shadow-lg transition duration-300 transform hover:scale-[1.01]">
+                <i class="fas fa-robot mr-2"></i> Gerar Dieta com IA
+            </button>
+
+            <!-- Campo Adicionar Alimentos -->
+            <div class="bg-gray-800 p-4 rounded-xl mb-6 flex items-center border border-gray-700">
+                <input type="text" placeholder="Adicionar alimentos que tenho em casa..." class="flex-grow bg-transparent text-white placeholder-gray-500 focus:outline-none" style="font-family: 'Poppins', sans-serif;">
+                <i class="fas fa-search text-gray-400 ml-3"></i>
+            </div>
+
+            <h3 class="text-2xl font-bold text-secondary mb-4">Refeições de Hoje</h3>
+
+            <div class="space-y-4">
+                <!-- Refeição 1: Café da Manhã -->
+                <div class="bg-gray-800 p-4 rounded-xl flex items-center justify-between border-l-4 border-secondary shadow-md">
+                    <div>
+                        <p class="text-lg font-bold text-white">Café da Manhã</p>
+                        <p class="text-gray-400 text-sm">Omelete com espinafre e 1 xícara de café</p>
+                    </div>
+                    <span class="text-sm font-bold text-secondary">350 Kcal</span>
+                </div>
+                <!-- Refeição 2: Almoço -->
+                <div class="bg-gray-800 p-4 rounded-xl flex items-center justify-between border-l-4 border-primary shadow-md">
+                    <div>
+                        <p class="text-lg font-bold text-white">Almoço</p>
+                        <p class="text-gray-400 text-sm">Frango grelhado, batata doce e salada</p>
+                    </div>
+                    <span class="text-sm font-bold text-primary">550 Kcal</span>
+                </div>
+                <!-- Refeição 3: Jantar (Pendente) -->
+                <div class="bg-gray-800 p-4 rounded-xl flex items-center justify-between border-l-4 border-gray-600 opacity-70 shadow-md">
+                    <div>
+                        <p class="text-lg font-bold text-white">Jantar</p>
+                        <p class="text-gray-500 text-sm">Salmão assado com legumes cozidos</p>
+                    </div>
+                    <span class="text-sm font-bold text-gray-500">400 Kcal</span>
+                </div>
+            </div>
+
+            <!-- Análise da IA -->
+            <div class="mt-8 p-5 bg-gray-900 border border-secondary rounded-2xl shadow-xl">
+                <h4 class="text-xl font-bold text-secondary mb-3"><i class="fas fa-brain mr-2"></i> Análise Nutricional da IA</h4>
+                <p class="text-gray-300 text-sm">
+                    **Equilíbrio calórico:** Excelente! Você está 100 kcal abaixo da meta diária.
+                    <br><br>
+                    **Sugestão de substituição:** Considere trocar a batata doce do almoço por quinoa para variar as fontes de carboidratos complexos.
+                </p>
+            </div>
+        </div>
+
+        <!-- 5. Tela de IA Coach (Chatbot) -->
+        <div id="ai-coach-screen" class="screen h-full pt-8 pb-20 px-6 flex flex-col" data-nav-target="true">
+            <h2 class="text-3xl font-bold text-white mb-4">FitMind.AI Coach</h2>
+
+            <!-- Avatar 3D da IA Coach (Mockup) -->
+            <div class="flex justify-center mb-6">
+                <div class="w-24 h-24 rounded-full bg-gradient-fitmind flex items-center justify-center border-4 border-white shadow-2xl shadow-[#A6FF00]/50">
+                    <i class="fas fa-robot text-white text-4xl"></i>
+                </div>
+            </div>
+
+            <!-- Área de Chat -->
+            <div class="flex-grow overflow-y-auto scroll-content space-y-4 mb-4">
+                <!-- Mensagem da IA (Verde) -->
+                <div class="flex justify-start">
+                    <div class="max-w-xs p-3 rounded-t-xl rounded-br-xl bg-secondary text-gray-900 shadow-md">
+                        <p class="font-medium">Olá Alexandre! Seu próximo treino é Pernas & Core. Como posso te motivar hoje?</p>
+                        <p class="text-xs text-gray-700 mt-1">10:05 AM</p>
+                    </div>
+                </div>
+
+                <!-- Mensagem do Usuário (Azul) -->
+                <div class="flex justify-end">
+                    <div class="max-w-xs p-3 rounded-t-xl rounded-bl-xl bg-primary text-white shadow-md">
+                        <p>Estou sem ânimo para a academia...</p>
+                        <p class="text-xs text-gray-200 mt-1 text-right">10:06 AM</p>
+                    </div>
+                </div>
+
+                <!-- Mensagem Motivacional (Verde) -->
+                <div class="flex justify-start">
+                    <div class="max-w-xs p-3 rounded-t-xl rounded-br-xl bg-secondary text-gray-900 shadow-md">
+                        <p class="font-medium">Lembre-se do seu objetivo de 85kg! Se a motivação falhar, a disciplina te leva. Vamos lá, 5 minutos de aquecimento e você vai se sentir imparável! 💪</p>
+                        <p class="text-xs text-gray-700 mt-1">10:06 AM</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campo de Input do Chat -->
+            <div class="flex items-center space-x-3 mt-auto">
+                <input type="text" placeholder="Converse com seu coach..." class="flex-grow p-4 rounded-full bg-gray-800 text-white placeholder-gray-500 focus:outline-none border border-gray-700" style="font-family: 'Poppins', sans-serif;">
+                <button class="w-12 h-12 rounded-full bg-primary text-white text-xl shadow-lg transition duration-300 transform hover:scale-105">
+                    <i class="fas fa-microphone"></i> <!-- Ícone de Microfone -->
+                </button>
+                <button class="w-12 h-12 rounded-full bg-secondary text-gray-900 text-xl shadow-lg transition duration-300 transform hover:scale-105">
+                    <i class="fas fa-video"></i> <!-- Ícone de Câmera -->
+                </button>
+            </div>
+        </div>
+
+        <!-- 6. Tela de Perfil -->
+        <div id="profile-screen" class="screen h-full pt-8 pb-20 px-6 scroll-content overflow-y-auto" data-nav-target="true">
+            <h2 class="text-3xl font-bold text-white mb-8">Meu Perfil</h2>
+
+            <!-- Avatar e Detalhes -->
+            <div class="flex flex-col items-center mb-8">
+                <div class="w-28 h-28 rounded-full bg-gray-700 flex items-center justify-center border-4 border-secondary mb-4">
+                    <i class="fas fa-user-circle text-white text-6xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Alexandre Souza</h3>
+                <p class="text-gray-400 text-md">alexandre.s@email.com</p>
+            </div>
+
+            <!-- Dados e Metas -->
+            <div class="bg-gray-800 p-5 rounded-2xl shadow-xl mb-6 border border-gray-700">
+                <div class="flex justify-between items-center mb-4">
+                    <h4 class="text-xl font-bold text-white">Metas e Dados</h4>
+                    <button class="text-primary font-bold text-sm hover:text-secondary" onclick="showModal('edit-goals-modal')"><i class="fas fa-edit mr-1"></i> Editar metas</button>
+                </div>
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div class="p-2 bg-gray-700 rounded-xl">
+                        <p class="text-xl font-bold text-secondary">88.5</p>
+                        <p class="text-gray-400 text-sm">Peso (Kg)</p>
+                    </div>
+                    <div class="p-2 bg-gray-700 rounded-xl">
+                        <p class="text-xl font-bold text-primary">27.5</p>
+                        <p class="text-gray-400 text-sm">IMC</p>
+                    </div>
+                    <div class="p-2 bg-gray-700 rounded-xl">
+                        <p class="text-xl font-bold text-white">85.0</p>
+                        <p class="text-gray-400 text-sm">Meta (Kg)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Histórico e Conquistas (Mockup de Barra de Progresso Circular) -->
+            <div class="bg-gray-800 p-5 rounded-2xl shadow-xl mb-6 border border-gray-700">
+                <h4 class="text-xl font-bold text-white mb-4">Histórico de Treino</h4>
+                <div class="flex items-center space-x-4">
+                    <div class="w-20 h-20 rounded-full bg-gray-700 flex items-center justify-center relative">
+                        <!-- Círculo de progresso simulado (75%) -->
+                        <div class="absolute w-full h-full rounded-full border-4 border-gray-600" style="border-top-color: #A6FF00; transform: rotate(45deg);"></div>
+                        <span class="text-white font-bold z-10">75%</span>
+                    </div>
+                    <div>
+                        <p class="text-lg text-white">12 Treinos Concluídos</p>
+                        <p class="text-gray-400 text-sm">Próxima conquista: 20 treinos!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notificações e Lembretes -->
+            <div class="bg-gray-800 p-5 rounded-2xl shadow-xl mb-6 border border-gray-700">
+                <h4 class="text-xl font-bold text-white mb-4">Notificações Inteligentes</h4>
+                <p class="text-gray-300 text-sm"><i class="fas fa-bell text-secondary mr-2"></i> Lembrete: Agendado treino de HIIT para 18:00.</p>
+                <p class="text-gray-300 text-sm mt-2"><i class="fas fa-sun text-primary mr-2"></i> Sugestão: Beba mais água, seu nível de hidratação está baixo.</p>
+            </div>
+
+            <!-- Botão Sair -->
+            <button onclick="navigate('welcome-screen')" class="w-full mt-4 py-3 rounded-xl bg-red-700 text-white font-bold transition duration-300 hover:bg-red-600">
+                <i class="fas fa-sign-out-alt mr-2"></i> Sair
+            </button>
+        </div>
+
+        <!-- 7. Tela de Profissionais (Adicional) -->
+        <div id="professionals-screen" class="screen h-full pt-8 pb-20 px-6 scroll-content overflow-y-auto" data-nav-target="false">
+            <button onclick="navigate('dashboard-screen')" class="text-gray-400 mb-4 hover:text-white"><i class="fas fa-arrow-left mr-2"></i> Voltar</button>
+            <h2 class="text-3xl font-bold text-white mb-6">Nossos Profissionais</h2>
+
+            <div class="space-y-4">
+                <!-- Profissional 1: Nutricionista -->
+                <div class="bg-gray-800 p-4 rounded-xl flex items-center shadow-lg border-l-4 border-secondary">
+                    <div class="w-16 h-16 rounded-full bg-gray-600 mr-4" style="background-image: url('https://placehold.co/64x64/282828/A6FF00?text=NF'); background-size: cover;"></div>
+                    <div class="flex-grow">
+                        <p class="text-xl font-bold text-white">Dra. Camila Nogueira</p>
+                        <p class="text-gray-400 text-sm">Nutricionista Esportiva</p>
+                        <p class="text-sm font-bold text-secondary">Próximo slot: Hoje, 19:30</p>
+                    </div>
+                    <button class="bg-primary text-white px-3 py-1 rounded-full text-sm font-bold transition duration-300 hover:bg-[#005bb5]">
+                        Agendar
+                    </button>
+                </div>
+                <!-- Profissional 2: Personal Trainer -->
+                <div class="bg-gray-800 p-4 rounded-xl flex items-center shadow-lg border-l-4 border-primary">
+                    <div class="w-16 h-16 rounded-full bg-gray-600 mr-4" style="background-image: url('https://placehold.co/64x64/282828/007AFF?text=PT'); background-size: cover;"></div>
+                    <div class="flex-grow">
+                        <p class="text-xl font-bold text-white">Lucas Fernandes</p>
+                        <p class="text-gray-400 text-sm">Personal Trainer (Treinamento Funcional)</p>
+                        <p class="text-sm font-bold text-primary">Disponível em 30 min</p>
+                    </div>
+                    <button class="bg-secondary text-gray-900 px-3 py-1 rounded-full text-sm font-bold transition duration-300 hover:bg-[#80cc00]">
+                        <i class="fas fa-video mr-1"></i> Vídeo
+                    </button>
+                </div>
+            </div>
+            <p class="text-center text-gray-500 mt-6 text-sm">As consultas são realizadas por videochamada integrada.</p>
+        </div>
+
+        <!-- 8. Tela de Comunidade / Desafios (Adicional) -->
+        <div id="community-screen" class="screen h-full pt-8 pb-20 px-6 scroll-content overflow-y-auto" data-nav-target="false">
+            <button onclick="navigate('dashboard-screen')" class="text-gray-400 mb-4 hover:text-white"><i class="fas fa-arrow-left mr-2"></i> Voltar</button>
+            <h2 class="text-3xl font-bold text-white mb-6">Comunidade & Desafios</h2>
+
+            <!-- Ranking de Desafios -->
+            <div class="bg-gray-800 p-5 rounded-2xl shadow-xl mb-6 border border-gray-700">
+                <div class="flex justify-between items-center mb-4">
+                    <h4 class="text-xl font-bold text-secondary">Ranking Semanal</h4>
+                    <button class="text-primary font-bold text-sm hover:text-secondary"><i class="fas fa-trophy mr-1"></i> Ver todos</button>
+                </div>
+                <ul class="space-y-2 text-white">
+                    <li class="flex justify-between items-center"><span class="font-bold text-secondary">1. Você</span> <span class="text-sm">2500 pontos</span></li>
+                    <li class="flex justify-between items-center"><span class="text-gray-300">2. M_Silva</span> <span class="text-sm">2480 pontos</span></li>
+                    <li class="flex justify-between items-center"><span class="text-gray-300">3. J_Santos</span> <span class="text-sm">2100 pontos</span></li>
+                </ul>
+            </div>
+
+            <!-- Feed de Progresso -->
+            <h4 class="text-xl font-bold text-white mb-4">Feed de Progresso</h4>
+            <div class="space-y-4">
+                <!-- Postagem 1 -->
+                <div class="bg-gray-800 p-4 rounded-xl shadow-md border border-gray-700">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 rounded-full bg-primary mr-3"></div>
+                        <p class="font-bold text-white">J_Santos</p>
+                    </div>
+                    <p class="text-gray-300">Concluí o desafio '5K em 30 Dias'! Obrigado, FitMind.AI! 💪</p>
+                    <p class="text-sm text-gray-500 mt-2">Há 1h | 45 curtidas | 5 comentários</p>
+                </div>
+            </div>
+
+            <button class="w-full mt-6 py-3 rounded-xl bg-primary text-white font-bold transition duration-300 hover:bg-[#005bb5]">
+                <i class="fas fa-plus mr-2"></i> Criar desafio com amigos
+            </button>
+        </div>
+
+        <!-- 9. Tela de Configurações / Assinatura (Adicional) -->
+        <div id="settings-screen" class="screen h-full pt-8 pb-20 px-6 scroll-content overflow-y-auto" data-nav-target="false">
+            <button onclick="navigate('dashboard-screen')" class="text-gray-400 mb-4 hover:text-white"><i class="fas fa-arrow-left mr-2"></i> Voltar</button>
+            <h2 class="text-3xl font-bold text-white mb-6">Configurações</h2>
+
+            <!-- Assinatura -->
+            <div class="bg-gray-800 p-5 rounded-2xl shadow-xl mb-6 border border-secondary">
+                <h4 class="text-xl font-bold text-secondary mb-3">Plano de Assinatura: Premium</h4>
+                <p class="text-gray-300">Acesso ilimitado ao IA Coach e consultas com profissionais. Próxima cobrança: 25/Dez.</p>
+                <button class="mt-3 text-sm text-primary font-bold hover:text-secondary">Gerenciar Plano</button>
+            </div>
+
+            <!-- Opções Gerais -->
+            <div class="space-y-3">
+                <div class="flex justify-between items-center p-3 bg-gray-800 rounded-xl">
+                    <span class="text-white">Idioma: Português (BR)</span>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+                <div class="flex justify-between items-center p-3 bg-gray-800 rounded-xl">
+                    <span class="text-white">Modo Escuro / Claro</span>
+                    <!-- Switch Toggle (Mockup) -->
+                    <div class="w-10 h-5 flex items-center bg-secondary rounded-full p-1 cursor-pointer">
+                        <div class="w-4 h-4 bg-gray-900 rounded-full transform translate-x-4"></div>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center p-3 bg-gray-800 rounded-xl">
+                    <span class="text-white">Notificações Inteligentes</span>
+                    <!-- Switch Toggle (Mockup) -->
+                    <div class="w-10 h-5 flex items-center bg-secondary rounded-full p-1 cursor-pointer">
+                        <div class="w-4 h-4 bg-gray-900 rounded-full transform translate-x-4"></div>
+                    </div>
+                </div>
+                <button class="w-full mt-4 py-3 rounded-xl bg-primary text-white font-bold transition duration-300 hover:bg-[#005bb5]">
+                    <i class="fas fa-watch mr-2"></i> Conectar com Smartwatch
+                </button>
+            </div>
+        </div>
+
+        <!-- Barra de Navegação Inferior (Apenas em Telas com data-nav-target="true") -->
+        <nav id="bottom-nav" class="fixed bottom-0 w-full max-w-lg mx-auto bg-gray-900 bg-opacity-95 backdrop-blur-md border-t border-gray-700 py-3 px-4 flex justify-around z-50 rounded-b-3xl">
+            <button data-screen="dashboard-screen" class="nav-item flex flex-col items-center text-secondary active-nav-item">
+                <i class="fas fa-home text-xl mb-1"></i>
+                <span class="text-xs font-medium">Início</span>
+            </button>
+            <button data-screen="workout-screen" class="nav-item flex flex-col items-center text-gray-400">
+                <i class="fas fa-dumbbell text-xl mb-1"></i>
+                <span class="text-xs font-medium">Treinos</span>
+            </button>
+            <button data-screen="nutrition-screen" class="nav-item flex flex-col items-center text-gray-400">
+                <i class="fas fa-apple-alt text-xl mb-1"></i>
+                <span class="text-xs font-medium">Dieta</span>
+            </button>
+            <button data-screen="ai-coach-screen" class="nav-item flex flex-col items-center text-gray-400">
+                <i class="fas fa-robot text-xl mb-1"></i>
+                <span class="text-xs font-medium">IA Coach</span>
+            </button>
+            <button data-screen="profile-screen" class="nav-item flex flex-col items-center text-gray-400">
+                <i class="fas fa-user-circle text-xl mb-1"></i>
+                <span class="text-xs font-medium">Perfil</span>
+            </button>
+            <button data-screen="settings-screen" class="nav-item flex flex-col items-center text-gray-400">
+                <i class="fas fa-cog text-xl mb-1"></i>
+                <span class="text-xs font-medium">Config</span>
+            </button>
+        </nav>
+
+        <!-- Modal de Treino (Exemplo de Extra Visual) -->
+        <div id="workout-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[100] hidden items-center justify-center p-4" onclick="hideModal('workout-modal')">
+            <div class="bg-gray-900 p-6 rounded-3xl w-full max-w-sm" onclick="event.stopPropagation()">
+                <h3 class="text-2xl font-bold text-white mb-4 text-center">Início do Treino</h3>
+                <p class="text-lg font-bold text-secondary text-center mb-4">Flexão de Braço (3x10)</p>
+                <div class="h-32 bg-gray-800 rounded-xl mb-4 flex items-center justify-center text-gray-400 border border-secondary">
+                    [Placeholder Vídeo de Exercício / Câmera da IA]
+                </div>
+                <p class="text-center text-primary font-bold mb-4">IA de Postura Ativa: Mantenha a coluna reta!</p>
+                <button class="w-full py-3 rounded-full bg-gradient-fitmind text-white font-bold transition duration-300">
+                    <i class="fas fa-check-circle mr-2"></i> Começar
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Variáveis globais simuladas para ambiente Canvas (necessárias)
+        const __app_id = 'fitmind-ai-app';
+        const __firebase_config = JSON.stringify({});
+        const __initial_auth_token = 'mock_auth_token';
+
+        // --- Simulação de Navegação e Interação ---
+        const screens = document.querySelectorAll('.screen');
+        const navItems = document.querySelectorAll('.nav-item');
+        const bottomNav = document.getElementById('bottom-nav');
+
+        function navigate(targetScreenId) {
+            let targetScreen = document.getElementById(targetScreenId);
+            if (!targetScreen) return;
+
+            // 1. Esconde todas as telas e remove a classe 'active'
+            screens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+
+            // 2. Ativa a tela alvo
+            targetScreen.classList.add('active');
+
+            // 3. Atualiza a navegação inferior
+            const isNavTarget = targetScreen.dataset.navTarget === 'true';
+
+            if (isNavTarget) {
+                // Se a tela alvo for uma tela principal, garante que a barra de navegação está visível
+                bottomNav.style.display = 'flex';
+                
+                // Remove a classe ativa de todos os itens de navegação
+                navItems.forEach(item => {
+                    item.classList.remove('active-nav-item', 'text-secondary');
+                    item.classList.add('text-gray-400');
+                });
+
+                // Ativa o item de navegação correspondente
+                const activeNavItem = document.querySelector(`.nav-item[data-screen="${targetScreenId}"]`);
+                if (activeNavItem) {
+                    activeNavItem.classList.add('active-nav-item', 'text-secondary');
+                    activeNavItem.classList.remove('text-gray-400');
+                }
+            } else {
+                // Se for uma tela secundária/modal (ex: Welcome, Professionals), esconde a barra
+                bottomNav.style.display = 'none';
+            }
+        }
+
+        // Listener para a barra de navegação
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const targetScreenId = item.dataset.screen;
+                navigate(targetScreenId);
+            });
+        });
+
+        // Funções para Modals
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function hideModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }
+        }
+
+        // Inicializa a tela (Começa na Welcome Screen)
+        document.addEventListener('DOMContentLoaded', () => {
+            navigate('welcome-screen');
+        });
+
+    </script>
+</body>
+</html>
